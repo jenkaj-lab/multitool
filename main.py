@@ -44,12 +44,12 @@ class MultiTool:
     def check_for_ip_addresses(self, text):
 
         ipv4_regex = r"(?<!\d)(?:\d{1,3}\.){3}\d{1,3}(?!\d)"
-        ipv6_regex = ""
+        ipv6_regex = r"((?:[0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,7}:|(?:[0-9A-Fa-f]{1,4}:){1,6}:[0-9A-Fa-f]{1,4}|(?:[0-9A-Fa-f]{1,4}:){1,5}(?::[0-9A-Fa-f]{1,4}){1,2}|(?:[0-9A-Fa-f]{1,4}:){1,4}(?::[0-9A-Fa-f]{1,4}){1,3}|(?:[0-9A-Fa-f]{1,4}:){1,3}(?::[0-9A-Fa-f]{1,4}){1,4}|(?:[0-9A-Fa-f]{1,4}:){1,2}(?::[0-9A-Fa-f]{1,4}){1,5}|[0-9A-Fa-f]{1,4}:(?::[0-9A-Fa-f]{1,4}){1,6}|:(?::[0-9A-Fa-f]{1,4}){1,7}|::|(?:[0-9A-Fa-f]{1,4}:){1,7}:|:(?::[0-9A-Fa-f]{1,4}){1,7})$"
 
         ipv4_addresses = re.findall(ipv4_regex, text)
         ipv6_addresses = re.findall(ipv6_regex, text)
 
-        self.ip_addresses = ipv4_addresses #+ ipv6_addresses
+        self.ip_addresses = ipv4_addresses + ipv6_addresses
         self.highlight_ip_addresses()
 
     def highlight_ip_addresses(self):
@@ -64,6 +64,7 @@ class MultiTool:
                     self.input_field.tag_add(self.highlight_tag, start_pos, end_pos)
 
     def scan_ip_addresses(self):
+        # ip_addresses = check_for_ip_addresses(ip_scan_output.get("1.0", "end"))
         if self.ip_addresses:
             from ip_lookup import lookup
 
